@@ -13,21 +13,34 @@ void gen(int n, string s)
 	gen(n, s + '0');
 	if (s.empty() || s.back() != '1')
 		gen(n, s + '1');
-	
+
 }
 
-long long G(int n)
+long long G(int n, int level, int& depth)
 {
-	if (n == 2) { return 3;  }
-	if (n == 1) { return 2;  }
+	if (level > depth)
+		depth = level;
+	cout << "G(" << n << ")  level = " << level << endl;
 
-	return G(n - 1) + G(n - 2);
+	if (n == 2) { return 3; }
+	if (n == 1) { return 2; }
+
+	return G(n - 1, level + 1, depth) + G(n - 2, level + 1, depth);
 }
 
 int main()
 {
 	int n;
 	cout << "n = "; cin >> n;
+
+	cout << endl << "Numbers without 11:" << endl;
 	gen(n, "");
-	cout << "count = " << G(n) << endl;
+	cout << "depth gen = " << n + 1 << endl;
+
+	cout << endl << "Recursion levels of G:" << endl;
+	int depthG = 0;
+	long long count = G(n, 1, depthG);
+
+	cout << endl << "count  = " << count << endl;
+	cout << "depthG = " << depthG << endl;
 }
